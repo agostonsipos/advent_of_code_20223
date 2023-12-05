@@ -65,17 +65,26 @@ function simulate2(start, transforms)
                         j = 0
                     end
                 end
+                if j == length(tr) && l > 0
+                    m = minimum(filter(x -> n <= x < n+l, map(r->r[2], tr)), init=n+l)
+                    if m == n + l
+                        push!(newdata, n)
+                        push!(newdata, l)
+                        break
+                    else
+                        push!(newdata, n)
+                        push!(newdata, m - n)
+                        n = m
+                        j = 0
+                    end
+                end
                 j += 1
             end
         end
         data = newdata
     end
-    m = data[1]
-    for i in 1:length(data)÷2
-        if m > data[2*i-1]
-            m = data[2*i-1]
-        end
-    end
+    m = minimum(data[1:2:end])
+    println(data[1:2:end])
     return m
 end
 
